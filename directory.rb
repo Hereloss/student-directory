@@ -17,8 +17,10 @@ def print_header
 end
 
 def print(names)
-  names.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  names.each_with_index do |student,idx|
+    if (student[:name][0] != "a") && (student[:name].length < 12)
+      puts "#{idx + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
