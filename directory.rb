@@ -11,13 +11,18 @@ def process(selection)
   case selection
     when "1"
       input_students
+      puts "students inputted"
     when "2"
       show_students
+      puts "students shown"
     when "3"
       save_students
+      puts "students saved"
     when "4"
       try_load_students
+      puts "load completed"
     when "9"
+      puts "goodbye!"
       exit
     else
       puts "I don't know what you mean, try again"
@@ -33,16 +38,20 @@ def print_menu
 end
 
 def show_students
-  print_header
+  print_header_student_list
   print_students_list
-  print_footer
+  print_footer_student_list
 end
 
-def input_students
+def input_start_text
   puts "Please enter the names of the students and their cohort separated by a space"
   puts "After this, please input a fun fact about the student!"
   puts "To finish, just hit return three times"
   @students = []
+end
+
+def input_students
+  input_start_text
   name = STDIN.gets.chomp
   fact = STDIN.gets.chomp
   while !name.empty? do
@@ -55,7 +64,7 @@ def input_students
   @students
 end
 
-def print_header
+def print_header_student_list
   puts "The students of Villains Academy"
   puts "-------------"
 end
@@ -71,7 +80,8 @@ def save_students
 end
 
 def try_load_students
-  filename = ARGV.first
+  puts "What file would you like?"
+  filename = STDIN.gets.chomp
   return if filename.nil?
   if File.exists?(filename)
     load_students(filename)
@@ -102,7 +112,7 @@ def print_students_list
   end
 end
 
-def print_footer
+def print_footer_student_list
   if @students.count > 1
     puts "Overall, we have #{@students.count} great students"
   elsif @students.count == 1
