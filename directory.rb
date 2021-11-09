@@ -1,23 +1,35 @@
 def interactive_menu
-  students = []
+  @students = []
   loop do
-    puts "1.Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
+    print_menu
     selection = gets.chomp.to_i
-    case selection
-    when 1
-      students = input_students
-    when 2
-      print_header
-      print(students)
-      print_footer(students)
-    when 9
+    process(selection)
+  end
+end
+
+def process(selection)
+  case selection
+    when "1"
+      input_students
+    when "2"
+      show_students
+    when "9"
       exit
     else
-     puts "Please try again - that's not an option!"
-    end
+      puts "I don't know what you mean, try again"
   end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  print_students_list
+  print_footer
 end
 
 def input_students
@@ -42,7 +54,8 @@ def print_header
   puts "-------------"
 end
 
-def print(names)
+def print_students_list
+  names = @students
   i = 0
   lengths = names.length
   if names.length != 0
@@ -52,11 +65,11 @@ def print(names)
   end
 end
 
-def print_footer(students)
-  if students.count > 1
-    puts "Overall, we have #{students.count} great students"
-  elsif students.count == 1
-    puts "Overall, we have #{students.count} great student"
+def print_footer
+  if @students.count > 1
+    puts "Overall, we have #{@students.count} great students"
+  elsif @students.count == 1
+    puts "Overall, we have #{@students.count} great student"
   else
     puts "We have no students!"
   end
