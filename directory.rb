@@ -1,3 +1,25 @@
+def interactive_menu
+  students = []
+  loop do
+    puts "1.Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    selection = gets.chomp.to_i
+    case selection
+    when 1
+      students = input_students
+    when 2
+      print_header
+      print(students)
+      print_footer(students)
+    when 9
+      exit
+    else
+     puts "Please try again - that's not an option!"
+    end
+  end
+end
+
 def input_students
   puts "Please enter the names of the students and their cohort separated by a space"
   puts "After this, please input a fun fact about the student!"
@@ -24,7 +46,7 @@ def print(names)
   i = 0
   lengths = names.length
   if names.length != 0
-    names.each do |student|
+    names.each do |student,cohort|
       puts "#{student[:name]} (#{student[:cohort]} cohort) - fun fact: #{student[:facts]}"
     end
   end
@@ -40,7 +62,4 @@ def print_footer(students)
   end
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+interactive_menu
