@@ -2,7 +2,7 @@ def interactive_menu
   @students = []
   loop do
     print_menu
-    selection = gets.chomp
+    selection = STDIN.gets.chomp
     process(selection)
   end
 end
@@ -16,7 +16,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      try_load_students
     when "9"
       exit
     else
@@ -43,14 +43,14 @@ def input_students
   puts "After this, please input a fun fact about the student!"
   puts "To finish, just hit return three times"
   @students = []
-  name = gets.chomp
-  fact = gets.chomp
+  name = STDIN.gets.chomp
+  fact = STDIN.gets.chomp
   while !name.empty? do
     name_cohort = name.split(" ")
     @students << {name: name_cohort[0],cohort: name_cohort[1],facts: fact}
     puts "Now we have #{@students.count} students"
-    name = gets.chomp
-    fact = gets.chomp
+    name = STDIN.gets.chomp
+    fact = STDIN.gets.chomp
   end
   @students
 end
@@ -70,8 +70,20 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist"
+    exit
+  end
+end
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, fact = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym, facts: fact}
